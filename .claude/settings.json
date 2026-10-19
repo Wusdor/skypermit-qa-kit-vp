@@ -8,11 +8,17 @@
       "mcp__claude_ai_Firecrawl",
       "Bash(curl:*)",
       "Bash(wget:*)",
-      "mcp__plugin_desktop-commander_desktop-commander"
+      "mcp__plugin_desktop-commander_desktop-commander",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push * --force*)",
+      "Bash(git push * -f*)",
+      "Bash(git push * +*)",
+      "Bash(git push --mirror*)",
+      "Bash(git push --delete*)",
+      "Bash(git push * --delete*)"
     ],
     "ask": [
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
       "Bash(git pull:*)",
       "Bash(git fetch:*)"
     ],
