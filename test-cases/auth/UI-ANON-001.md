@@ -14,7 +14,7 @@
 На форме нет элемента для выбора или ввода `authorisation_level`.
 
 ## Rationale
-«`authorisation_level` is not a field on this form — registration always starts an operator at `L1`». UI-часть R5; серверная часть — API-ANON-003. Тест-план: `skypermit-test-plan.md` S8.
+«`authorisation_level` is not a field on this form — registration always starts an operator at `L1`». UI-часть R5; серверная часть — DB-ANON-003. Тест-план: `skypermit-test-plan.md` S8.
 
 ## Test data
 | Параметр | Значение | Почему это значение |
