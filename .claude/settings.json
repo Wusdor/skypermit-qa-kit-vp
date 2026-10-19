@@ -27,6 +27,9 @@
       "git pull:*",
       "git fetch:*"
     ],
+    "filesystem": {
+      "denyWrite": ["../skypermit"]
+    },
     "network": {
       "allowedDomains": [],
       "deniedDomains": ["*"]
