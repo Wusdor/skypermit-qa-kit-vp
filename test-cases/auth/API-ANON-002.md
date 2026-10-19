@@ -1,7 +1,7 @@
 # API-ANON-002: Новый оператор создаётся с authorisation_level = L1
 
 - **ID:** API-ANON-002
-- **Doc ref:** `03-api-contract.md` §Authentication & authorisation («`authorisation_level` is no longer self-service»)
+- **Doc ref:** `03-api-contract.md` §Authentication & authorisation («`authorisation_level` is no longer self-service»; таблица эндпоинтов: `POST /operators` — «…then signs the caller in (session cookie)», `GET /auth/me` — «The logged-in operator's profile, or `401`»); `04-frontend-spec.md` §Operator portal («registration always starts an operator at `L1`»)
 - **Role(s):** Аноним (регистрирующийся) → Оператор
 
 ## Preconditions
@@ -16,7 +16,7 @@
 В профиле `authorisation_level = "L1"`.
 
 ## Rationale
-«Registration always creates an operator at `L1` (least privilege)». Минимальный уровень влияет на гейт `ZONE` (`06-business-rules.md` §1.3), поэтому ошибка здесь сразу меняет исходы заявок. Тест-план: `skypermit-test-plan.md` S1, R5.
+«Registration always creates an operator at `L1` (least privilege)». Минимальный уровень влияет на гейт `ZONE` (`06-business-rules.md` §1.3), поэтому ошибка здесь сразу меняет исходы заявок. Тест-план: `skypermit-test-plan.md` S1.
 
 ## Test data
 | Параметр | Значение | Почему это значение |
