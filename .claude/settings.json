@@ -7,7 +7,8 @@
       "WebSearch",
       "mcp__claude_ai_Firecrawl",
       "Bash(curl:*)",
-      "Bash(wget:*)"
+      "Bash(wget:*)",
+      "mcp__plugin_desktop-commander_desktop-commander"
     ],
     "ask": [
       "Bash(git commit:*)",
@@ -30,6 +31,9 @@
       "allowedDomains": [],
       "deniedDomains": ["*"]
     }
+  },
+  "enabledPlugins": {
+    "desktop-commander@knowledge-work-plugins": false
   },
   "disableClaudeAiConnectors": true,
   "enableArtifact": false
