@@ -17,27 +17,5 @@
       "Bash(git fetch:*)"
     ],
     "additionalDirectories": ["../skypermit"]
-  },
-  "sandbox": {
-    "enabled": true,
-    "failIfUnavailable": true,
-    "allowUnsandboxedCommands": false,
-    "excludedCommands": [
-      "git push:*",
-      "git pull:*",
-      "git fetch:*"
-    ],
-    "filesystem": {
-      "denyWrite": ["../skypermit"]
-    },
-    "network": {
-      "allowedDomains": [],
-      "deniedDomains": ["*"]
-    }
-  },
-  "enabledPlugins": {
-    "desktop-commander@knowledge-work-plugins": false
-  },
-  "disableClaudeAiConnectors": true,
-  "enableArtifact": false
+  }
 }
