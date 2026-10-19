@@ -20,7 +20,7 @@ argument-hint: "<модуль> [фокус: гейт / правило / пере
 | Модуль | Что в нём | Основные источники |
 |---|---|---|
 | `auth` | Регистрация, login/logout/me, `401`/`403`, scoping по сессии, reviewer-or-owner чтение | `03-api-contract.md` §Authentication |
-| `registry` | Operators, pilots, aircraft: создание, чтение, списки, уникальность, производные currency/weight band, отказ при `mtom_grams` > 30 000 г | `01-data-model.md`; `03` §Registry; `06` §1.2, §2, §3 |
+| `registry` | Pilots, aircraft: создание, чтение, списки, уникальность, производные currency/weight band, отказ при `mtom_grams` > 30 000 г; чтение оператора (`GET /operators/{id}`) | `01-data-model.md`; `03` §Registry; `06` §1.2, §2, §3 |
 | `zones` | Справочник зон: список, одна зона, значения каталога | `03` §Reference data; `06` §4 |
 | `flight-requests` | Create/get/list заявки, валидация полей (`flight_purpose`, окно), фильтры списка | `03` §Flight requests; `01` §FlightRequest, §Time handling |
 | `gates` | 4 гейта, порядок и первый провал, тело `422`, `rule_reference`, `validate` (dry-run, паритет с `submit`) | `06` §1–§4, §6 с поправками `07`; `03` §422, §Gate pipeline, #13 |
@@ -31,7 +31,8 @@ argument-hint: "<модуль> [фокус: гейт / правило / пере
 
 Пограничные случаи: overlap как условие гейта → `gates`; какие состояния
 считаются в overlap → тоже `gates`; `409` на действие из неверного состояния
-→ `state-machine`; чужой ресурс → `auth`.
+→ `state-machine`; чужой ресурс → `auth`; создание оператора
+(`POST /operators`) — это регистрация → `auth`, не `registry`.
 
 Фокус — то, что пользователь назвал внутри модуля: гейт, правило, переход,
 `OQ-NN`, раздел тест-плана. Если модуль не ясен из запроса, спроси.
