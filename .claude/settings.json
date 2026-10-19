@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(../skypermit/**)",
+      "Write(../skypermit/**)",
+      "WebFetch",
+      "WebSearch"
+    ],
+    "additionalDirectories": ["../skypermit"]
+  }
+}
