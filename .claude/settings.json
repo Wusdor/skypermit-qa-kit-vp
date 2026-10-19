@@ -4,8 +4,33 @@
       "Edit(../skypermit/**)",
       "Write(../skypermit/**)",
       "WebFetch",
-      "WebSearch"
+      "WebSearch",
+      "mcp__claude_ai_Firecrawl",
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+    ],
+    "ask": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git fetch:*)"
     ],
     "additionalDirectories": ["../skypermit"]
-  }
+  },
+  "sandbox": {
+    "enabled": true,
+    "failIfUnavailable": true,
+    "allowUnsandboxedCommands": false,
+    "excludedCommands": [
+      "git push:*",
+      "git pull:*",
+      "git fetch:*"
+    ],
+    "network": {
+      "allowedDomains": [],
+      "deniedDomains": ["*"]
+    }
+  },
+  "disableClaudeAiConnectors": true,
+  "enableArtifact": false
 }
