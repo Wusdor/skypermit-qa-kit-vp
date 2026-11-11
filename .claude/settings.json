@@ -31,7 +31,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/usage-report.mjs\""
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/usage-report.mjs\"",
+            "timeout": 30
           }
         ]
       }
