@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "defaultMode": "default",
     "deny": [
       "Edit(../skypermit/**)",
       "Write(../skypermit/**)",
@@ -23,5 +24,17 @@
       "Bash(git fetch:*)"
     ],
     "additionalDirectories": ["../skypermit"]
+  },
+  "hooks": {
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/usage-report.mjs\""
+          }
+        ]
+      }
+    ]
   }
 }
