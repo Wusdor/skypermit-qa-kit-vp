@@ -9,7 +9,7 @@
 - Под этим оператором через API созданы пилот (`POST /api/v1/pilots`) и aircraft (`POST /api/v1/aircraft`) с данными из Test data.
 - У этого aircraft нет других заявок (условие overlap не может сработать).
 - Заранее выбран момент `T` — планируемое время шага 1 (UTC, точность до минуты). Фактический `submit` выполняется в `T` или позже, но не раньше.
-- До момента `T` через `POST /api/v1/flight-requests` создана заявка в `DRAFT` с данными из Test data, где `window_start = T + 5 ч 59 мин`. Момент создания `DRAFT` на lead time не влияет: гейты запускаются только при `submit` (`02` таблица переходов, `03` #10).
+- До момента `T` через `POST /api/v1/flight-requests` создана заявка в `DRAFT` с данными из Test data, где `window_start = T + 5 ч 59 мин`. Момент создания `DRAFT` на lead time не влияет: при создании гейты не запускаются (`02` §States, `DRAFT`: «No gates have run»; `03` #9). Гейты запускают `submit` (`03` #10) и `validate` (`03` #13), но `validate` — dry-run «without changing state», и в этом кейсе он не вызывается.
 
 ## Steps
 1. Не раньше момента `T` (по возможности ровно в `T`) — `POST /api/v1/flight-requests/{id}/submit`.
