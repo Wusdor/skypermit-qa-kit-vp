@@ -1,7 +1,7 @@
 # API-OPR-002: Заявка за 61 день до window_start — submit отклоняется гейтом TIME_WINDOW по TSD-4 §2.2
 
 - **ID:** API-OPR-002
-- **Doc ref:** `06-business-rules.md` §1.4 (Maximum advance booking), §6; `02-state-machine.md` таблица переходов (`SUBMITTED` → `REJECTED`); `01-data-model.md` §FlightRequest (`failing_gate`, `rule_reference`); `03-api-contract.md` #10, #11; OQ-07
+- **Doc ref:** `06-business-rules.md` §1.4 (Maximum advance booking), §6; `02-state-machine.md` таблица переходов (`SUBMITTED` → `REJECTED`); `01-data-model.md` §FlightRequest (`failing_gate`, `rule_reference`); `03-api-contract.md` #10, #11; OQ-07; OQ-20
 - **Role(s):** Оператор (владелец заявки)
 
 ## Preconditions
@@ -29,7 +29,7 @@
 ## Test data
 | Параметр | Значение | Почему это значение |
 |---|---|---|
-| `T` | момент отправки шага 1, UTC | Точка отсчёта для 60 дней в `06` §1.4 не задана; окно на 61 день после `T` нарушает правило при любой точке отсчёта не позже `T` (включая создание `DRAFT`) |
+| `T` | момент отправки шага 1, UTC | Точка отсчёта для 60 дней в `06` §1.4 не задана (OQ-20); окно на 61 день после `T` нарушает правило при любой точке отсчёта не позже `T` (включая создание `DRAFT`) |
 | `window_start` | `T + 61 дн` (UTC, то же время суток) | На 1 день выше порога 60 дней — нарушение у границы; lead time ≥ 6 ч выполнен |
 | `window_end` | `window_start + 60 мин` | Длительность внутри 15–240 мин (`06` §1.4, `TSD-4` §3) |
 | `zone_code` | `DNI-OPN-1` | `OPEN`, curfew нет, бэнды C0–C3, потолок 120 м, `L1` (`06` §4) — `PILOT`, `AIRCRAFT`, `ZONE` и curfew не мешают |
