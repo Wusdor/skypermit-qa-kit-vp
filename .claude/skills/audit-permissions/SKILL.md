@@ -44,8 +44,9 @@ user попадает в «Не удалось проверить».
   `permissions.disableAutoMode`, `hooks`, `enableAllProjectMcpServers`,
   `enabledMcpjsonServers`;
 - из SKILL.md: `allowed-tools`, `disable-model-invocation`, `context`,
-  `agent`, `hooks`, а также строки `` !`…` `` в теле (они выполняются в shell
-  при вызове скила);
+  `agent`, `hooks`, а также строки dynamic context injection в теле — восклицательный
+  знак, за которым сразу идёт команда в обратных кавычках (они выполняются в
+  shell при каждом вызове скила);
 - из агентов: `tools` (отсутствие = наследует все инструменты),
   `disallowedTools`, `permissionMode`, `hooks`, `mcpServers`, `skills`.
 
@@ -171,8 +172,9 @@ Git-трекинг `.claude/settings.local.json` через Bash не прове
   (`sandbox.enabled` не `true`) — medium, иначе low.
 - allow-исключение, которое «перебивает» deny (deny `Bash(aws *)` + allow
   `Bash(aws s3 ls)`) — allow никогда не сработает.
-- Строки `` !`…` `` в теле скила, которые выполняют команды, не покрытые
-  его `allowed-tools`.
+- Строки dynamic context injection в теле скила (восклицательный знак, за
+  которым сразу идёт команда в обратных кавычках): показывать всегда, с
+  командой и пометкой, что она выполняется при каждом вызове скила.
 
 ### low — гигиена
 - Много точечных правил в `.claude/settings.local.json` от «don't ask again».
