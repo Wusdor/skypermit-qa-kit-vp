@@ -11,7 +11,7 @@ hooks:
     - matcher: "Write|Edit"
       hooks:
         - type: command
-          command: "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/tc-writer-guard.mjs\""
+          command: "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/tc-writer-guard.mjs\" || exit 2"
 ---
 
 Ты создаёшь ровно один тест-кейс SkyPermit по правилам скила

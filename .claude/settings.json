@@ -3,7 +3,12 @@
     "defaultMode": "default",
     "deny": [
       "Edit(../skypermit/**)",
-      "Write(../skypermit/**)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
       "WebFetch",
       "WebSearch",
       "mcp__claude_ai_Firecrawl",
