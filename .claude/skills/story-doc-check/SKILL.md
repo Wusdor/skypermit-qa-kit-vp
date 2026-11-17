@@ -1,18 +1,18 @@
 ---
 name: story-doc-check
 description: Сверка acceptance criteria одной задачи Jira с документацией SkyPermit в Confluence (SPD) перед тест-дизайном. Не для проверки кода, не для написания или проверки тест-кейсов, не для правки Jira.
-argument-hint: "<issue key, e.g. SKY-1>"
-allowed-tools: mcp__atlassian__getJiraIssue, mcp__atlassian__searchConfluenceUsingCql, mcp__atlassian__getConfluencePage
+argument-hint: "<JSON от /jira-intake>"
+allowed-tools: mcp__atlassian__searchConfluenceUsingCql, mcp__atlassian__getConfluencePage
 ---
 
 # story-doc-check
 
-Вход: `$ARGUMENTS` — ключ задачи Jira (например, `SKY-1`). Для каждого acceptance criterion найти, где он описан в Confluence, и присвоить один из трёх статусов.
+Вход: `$ARGUMENTS`. В нём найти JSON-объект с ключами от `/jira-intake` (`key`, `title`, `check_type`, `acceptance_criteria`, `confluence_url`, `notes`) и работать с ним; посторонний текст до или после блока json игнорировать. Для каждого acceptance criterion найти, где он описан в Confluence, и присвоить один из трёх статусов.
 
 ## Источники
 
-- Jira: `mcp__atlassian__getJiraIssue`, `cloudId` = `f13593f8-183f-4502-ba93-6d6babaac436` (`getAccessibleAtlassianResources` не вызывать), `responseContentFormat: markdown`. Взять раздел acceptance criteria из описания.
-- Confluence: только пространство **SPD** (SkyPermit Docs), читать по ID через `mcp__atlassian__getConfluencePage` (`cloudId` тот же, `contentFormat: markdown`). `mcp__atlassian__searchConfluenceUsingCql` — только если нужной страницы нет в таблице.
+- Задача: только JSON из `$ARGUMENTS`, критерии — массив `acceptance_criteria`. Jira не читать.
+- Confluence: только пространство **SPD** (SkyPermit Docs), читать по ID через `mcp__atlassian__getConfluencePage` (`cloudId` = `f13593f8-183f-4502-ba93-6d6babaac436`, `getAccessibleAtlassianResources` не вызывать, `contentFormat: markdown`). `mcp__atlassian__searchConfluenceUsingCql` — только если нужной страницы нет в таблице.
 
 | Страница | ID |
 |---|---|
@@ -59,7 +59,9 @@ allowed-tools: mcp__atlassian__getJiraIssue, mcp__atlassian__searchConfluenceUsi
 
 Итоговая строка ровно в таком виде: `<KEY>: N критериев — покрыто a, противоречит b, не описано c`.
 
-Если в задаче нет раздела acceptance criteria или задача не найдена — одна строка с этим фактом вместо таблицы.
+Если во входе нет такого JSON-объекта вообще (например, голый ключ задачи) — одна строка вместо таблицы: «сначала запусти /jira-intake <KEY> и передай его вывод» (`<KEY>` — ключ из входа, если он есть). Посторонний текст рядом с JSON — не повод для отказа.
+
+Если `acceptance_criteria` пустой — одна строка вместо таблицы с цитатой из `notes`.
 
 ## Чего не делать
 
