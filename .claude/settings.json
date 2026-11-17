@@ -12,6 +12,7 @@
       "WebFetch",
       "WebSearch",
       "mcp__claude_ai_Firecrawl",
+      "mcp__plugin_atlassian_atlassian",
       "Bash(curl:*)",
       "Bash(wget:*)",
       "mcp__plugin_desktop-commander_desktop-commander",
