@@ -1,7 +1,7 @@
 # API-ANON-001: Успешная регистрация сразу открывает сессию оператора
 
 - **ID:** API-ANON-001
-- **Doc ref:** `03-api-contract.md` §Authentication & authorisation (`POST /operators`, `GET /auth/me`)
+- **Doc ref:** «03 — API Contract» §Authentication & authorisation (`POST /operators`, `GET /auth/me`)
 - **Role(s):** Аноним (регистрирующийся, без сессии) → Оператор
 
 ## Preconditions
@@ -22,7 +22,7 @@
 | Параметр | Значение | Почему это значение |
 |---|---|---|
 | `legal_name` | `<непустое юридическое имя>` | Класс валидных значений |
-| `national_id` | `<national_id, уникальный в прогоне>` | `national_id` unique — `01-data-model.md` §Operator |
+| `national_id` | `<national_id, уникальный в прогоне>` | `national_id` unique — «01 — Data Model» §Operator |
 | `email` | `<email валидного формата, уникальный в прогоне>` | `email` unique |
 | `password` | `<пароль, заведомо удовлетворяющий любым разумным правилам>` | Правила пароля в документации не заданы (OQ-17) — отказ не должен прийти из-за пароля |
 | `phone`, `address_line`, `city`, `postal_code` | `<валидные непустые значения>` | Заполнены, чтобы не зависеть от их обязательности (OQ-17) |

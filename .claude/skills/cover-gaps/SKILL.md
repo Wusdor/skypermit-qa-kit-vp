@@ -9,11 +9,13 @@ allowed-tools: Read, Grep, Glob, Agent, Edit(test-cases/**), Edit(test-plans/ope
 
 # Закрыть непокрытые бизнес-правила
 
-Цель — чтобы у каждого `rule_reference` из `../skypermit/docs/06-business-rules.md`
-§6 (с поправками `07-clarifications.md`) был хотя бы один проверенный
+Цель — чтобы у каждого `rule_reference` из «06 — Business Rules» §6
+(с поправками «07 — Clarifications») был хотя бы один проверенный
 тест-кейс. Пайплайн: список дыр → один кейс на правило через
 субагента `tc-writer` → проверка каждого кейса субагентом `tc-verifier` →
 JSON-итог.
+
+> Исключение: `scripts/uncovered-rules.mjs` читает локальные `../skypermit/docs/06…`/`07…`, а не Confluence (скрипт не ходит в MCP) — локальная копия может разойтись с Confluence.
 
 ## 1. Дыры
 

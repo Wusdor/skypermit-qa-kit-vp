@@ -1,7 +1,7 @@
 # API-ANON-004: Регистрация с уже занятым email
 
 - **ID:** API-ANON-004
-- **Doc ref:** `01-data-model.md` §Operator (`email` unique); `03-api-contract.md` §Error semantics; OQ-15
+- **Doc ref:** «01 — Data Model» §Operator (`email` unique); «03 — API Contract» §Error semantics; OQ-15
 - **Role(s):** Аноним (регистрирующийся); Оператор A (зарегистрирован в предусловиях)
 
 ## Preconditions

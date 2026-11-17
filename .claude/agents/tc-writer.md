@@ -1,7 +1,7 @@
 ---
 name: tc-writer
 description: Создаёт ровно один тест-кейс SkyPermit по одному бизнес-правилу с ограничениями и ID, которые передал cover-gaps, и возвращает одну строку JSON. Вызывается из cover-gaps.
-tools: Read, Grep, Glob, Write, Edit
+tools: Read, Grep, Glob, Write, Edit, mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__getConfluencePage, mcp__atlassian__getConfluencePageDescendants, mcp__atlassian__getPagesInConfluenceSpace, mcp__atlassian__searchConfluenceUsingCql
 model: sonnet
 skills:
   - test-case-creator
@@ -32,7 +32,8 @@ hooks:
 
 ## Как работать
 
-1. Прочитай источники по разделу 2 скила. Существующие кейсы модуля
+1. Прочитай источники по разделу 2 скила (страницы Confluence SPD через
+   `mcp__atlassian__*`, только чтение). Существующие кейсы модуля
    прочитай обязательно: нужно поймать дубль.
 2. **ID не вычисляй** — используй переданный. Перед записью проверь `Glob`
    `test-cases/*/<ID>.md`: файл уже есть → статус `error`. Если по

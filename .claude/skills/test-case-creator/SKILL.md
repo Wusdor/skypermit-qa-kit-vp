@@ -20,15 +20,18 @@ model: sonnet
 
 | Модуль | Что в нём | Основные источники |
 |---|---|---|
-| `auth` | Регистрация, login/logout/me, `401`/`403`, scoping по сессии, reviewer-or-owner чтение | `03-api-contract.md` §Authentication |
-| `registry` | Pilots, aircraft: создание, чтение, списки, уникальность, производные currency/weight band, отказ при `mtom_grams` > 30 000 г; чтение оператора (`GET /operators/{id}`) | `01-data-model.md`; `03` §Registry; `06` §1.2, §2, §3 |
-| `zones` | Справочник зон: список, одна зона, значения каталога | `03` §Reference data; `06` §4 |
-| `flight-requests` | Create/get/list заявки, валидация полей (`flight_purpose`, окно), фильтры списка | `03` §Flight requests; `01` §FlightRequest, §Time handling |
-| `gates` | 4 гейта, порядок и первый провал, тело `422`, `rule_reference`, `validate` (dry-run, паритет с `submit`) | `06` §1–§4, §6 с поправками `07`; `03` §422, §Gate pipeline, #13 |
-| `state-machine` | Легальные/нелегальные переходы, `409`, дедлайн отмены, транзиентный `SUBMITTED`, `COMPLETED` | `02-state-machine.md`; `06` §5 |
-| `review` | Approve/reject, `X-Reviewer-Id`, обязательный `note`, `ReviewAction`, `decided_*` | `03` §Reviewer; `01` §ReviewAction |
-| `audit-log` | Запись `AuditLog` на переходы, append-only | `01` §AuditLog; `02` §Implementation note |
-| `ui` | Портал оператора, очередь ревьюера, контракт `data-testid`, пикеры без пре-фильтрации | `04-frontend-spec.md` |
+| `auth` | Регистрация, login/logout/me, `401`/`403`, scoping по сессии, reviewer-or-owner чтение | «03 — API Contract» §Authentication |
+| `registry` | Pilots, aircraft: создание, чтение, списки, уникальность, производные currency/weight band, отказ при `mtom_grams` > 30 000 г; чтение оператора (`GET /operators/{id}`) | «01 — Data Model»; «03 — API Contract» §Registry; «06 — Business Rules» §1.2, §2, §3 |
+| `zones` | Справочник зон: список, одна зона, значения каталога | «03 — API Contract» §Reference data; «06 — Business Rules» §4 |
+| `flight-requests` | Create/get/list заявки, валидация полей (`flight_purpose`, окно), фильтры списка | «03 — API Contract» §Flight requests; «01 — Data Model» §FlightRequest, §Time handling |
+| `gates` | 4 гейта, порядок и первый провал, тело `422`, `rule_reference`, `validate` (dry-run, паритет с `submit`) | «06 — Business Rules» §1–§4, §6 с поправками «07 — Clarifications»; «03 — API Contract» §422, §Gate pipeline, #13 |
+| `state-machine` | Легальные/нелегальные переходы, `409`, дедлайн отмены, транзиентный `SUBMITTED`, `COMPLETED` | «02 — State Machine»; «06 — Business Rules» §5 |
+| `review` | Approve/reject, `X-Reviewer-Id`, обязательный `note`, `ReviewAction`, `decided_*` | «03 — API Contract» §Reviewer; «01 — Data Model» §ReviewAction |
+| `audit-log` | Запись `AuditLog` на переходы, append-only | «01 — Data Model» §AuditLog; «02 — State Machine» §Implementation note |
+| `ui` | Портал оператора, очередь ревьюера, контракт `data-testid`, пикеры без пре-фильтрации | «04 — Frontend Spec» |
+
+Источники — страницы Confluence (пространство SPD). Короткое `0N` в тексте
+скила и ссылка `docs/0N-*.md` означают страницу с тем же номером.
 
 Пограничные случаи: overlap как условие гейта → `gates`; какие состояния
 считаются в overlap → тоже `gates`; `409` на действие из неверного состояния
@@ -40,8 +43,10 @@ model: sonnet
 
 ## 2. Прочитать источники
 
-- Документация — `../skypermit/docs/`. Прочитай разделы модуля целиком, а
-  также `05-open-questions.md` и `07-clarifications.md`: `05` — единственный
+- Документация — Confluence, пространство `SPD` сайта `vp-skypermit`
+  (страницы и ID — в `CLAUDE.md`). Читай через
+  `mcp__atlassian__getConfluencePage`. Прочитай разделы модуля целиком, а
+  также «05 — Open Questions» и «07 — Clarifications»: `05` — единственный
   источник статуса вопросов, `07` важнее `06` при расхождении.
 - Тест-план модуля в `test-plans/`, если есть: риски и стратегия подсказывают
   уровень и приоритет кейсов.
@@ -143,7 +148,7 @@ model: sonnet
 # {ID}: <что проверяем, одной строкой>
 
 - **ID:** {ID}
-- **Doc ref:** `<файл>` §<раздел>[; `<файл>` §<раздел>][; OQ-NN]
+- **Doc ref:** «<страница Confluence>» §<раздел>[; «<страница>» §<раздел>][; OQ-NN]  (например, «06 — Business Rules» §1.4)
 - **Role(s):** <актор шага; кто ещё участвует в предусловиях>
 
 ## Preconditions
@@ -196,12 +201,12 @@ Untested
   `T` = время отправки запроса (UTC), `window_start = T + 6 ч 00 мин`. Для
   правил с точностью до минуты указывай запас и точность явно. Абсолютные
   даты используй там, где правило от «сейчас» не зависит.
-- Справочные данные (зоны) — из `06-business-rules.md` §4 с кодом зоны.
+- Справочные данные (зоны) — из «06 — Business Rules» §4 с кодом зоны.
 - Для каждого значения напиши, почему выбрано именно оно.
 
 ### Ожидаемый результат не определён
 
-Если ответ зависит от вопроса, не решённого по `05-open-questions.md`, или от
+Если ответ зависит от вопроса, не решённого по «05 — Open Questions», или от
 противоречия в документах:
 
 - Expected result: «Не определено — OQ-NN» и коротко, между чем выбор
