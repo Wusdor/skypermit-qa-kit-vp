@@ -39,4 +39,4 @@
 | `flight_purpose` | `Аэрофотосъёмка` | Валидный текст |
 
 ## Status
-Passed
+Untested
