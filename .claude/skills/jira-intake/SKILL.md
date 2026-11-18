@@ -3,6 +3,8 @@ name: jira-intake
 description: Первый шаг перед сверкой с документацией, тест-дизайном или импортом — достаёт из задачи Jira структурированные поля (title, check_type, acceptance_criteria, confluence_url) одним JSON-блоком. Не для оценки критериев, не для чтения Confluence или кода, не для изменения Jira.
 argument-hint: "<issue key, e.g. SKY-1>"
 allowed-tools: mcp__atlassian__getJiraIssue
+context: fork
+agent: Explore
 ---
 
 # jira-intake
