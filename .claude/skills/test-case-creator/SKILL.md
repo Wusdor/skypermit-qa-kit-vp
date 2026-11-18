@@ -1,6 +1,6 @@
 ---
 name: test-case-creator
-description: Создаёт атомарные тест-кейсы SkyPermit в Markdown — один файл на кейс в test-cases/{module}/{ID}.md, ID вида API-OPR-001 (уровень, роль, номер), поля ID, Doc ref, Role(s), Preconditions, Steps, Expected result, Rationale, Test data, Status — с трассировкой ожидаемого результата к документации и ссылками на открытые вопросы OQ-NN. Используй всякий раз, когда просят «тест-кейсы», «test cases», «кейсы на …», «напиши проверки для …» по модулю, правилу, гейту, переходу или по тест-плану. Не для тест-планов (это test-plan-onepager) и не для автотестов.
+description: Создаёт атомарные тест-кейсы SkyPermit в Markdown — один файл на кейс в test-cases/{module}/{ID}.md, ID вида API-OPR-001 (уровень, роль, номер), поля ID, Doc ref, Role(s), Preconditions, Steps, Expected result, Rationale, Test data, Status — с трассировкой ожидаемого результата к документации и ссылками на открытые вопросы OQ-NN. Используй всякий раз, когда просят «тест-кейсы», «test cases», «кейсы на …», «напиши проверки для …» по модулю, правилу, гейту, переходу или по тест-плану. Не для тест-планов (это test-plan-onepager) и не для автотестов. E2E-кейсы UI по задаче Jira (через форму и data-testid) — это ui-test-case-creator, не этот скилл.
 argument-hint: "<модуль> [фокус: гейт / правило / переход / OQ-NN / путь к тест-плану]"
 model: sonnet
 ---
