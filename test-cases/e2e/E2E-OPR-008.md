@@ -2,7 +2,7 @@
 
 - **ID:** E2E-OPR-008
 - **Jira:** SKY-3
-- **Doc ref:** «04 — Frontend Spec» §Operator portal (форма заявки), §Two contracts to hold exactly («The form does not pre-filter»); «03 — API Contract» §Flight requests (#9: «Create a request in `DRAFT`»); «02 — State Machine» §States (`DRAFT`: «No gates have run»); «06 — Business Rules» §1.2, §3, §4
+- **Doc ref:** «04 — Frontend Spec» §Operator portal (форма заявки), §Two contracts to hold exactly («The form does not pre-filter»); «03 — API Contract» §Flight requests (#9: «Create a request in `DRAFT`»); «02 — State Machine» §States (`DRAFT`: «No gates have run»); «06 — Business Rules» §1.1, §1.2, §1.4, §2, §3, §4 (`OH-1 v2.0 §3–4`)
 - **Role(s):** Оператор (владелец заявки, работает в портале)
 - **Техника:** EP — недопустимый класс сочетания «весовая категория `C3` × зона с `permitted_bands` C0–C2» на этапе заполнения формы: форма его принимает
 
@@ -20,12 +20,12 @@
 4. Нажать `flight-request-create-submit-button` (:191).
 
 ## Expected result
-Заявка создана в `DRAFT`: бейдж `flight-request-detail-state` (components/FlightRequestPanel.tsx:133) показывает `DRAFT`; элемент `flight-request-create-error` (app/operator/requests/new/page.tsx:187) отсутствует («04» §Two contracts: «an operator can select a combination that cannot possibly pass», правила применяются «only at `validate` and `submit`»; «03» #9: создание в `DRAFT`; «02» §States: у `DRAFT` гейты не запускались).
+Заявка создана в состоянии `DRAFT`; ошибки отказа гейта нет — элемент `flight-request-create-error` (app/operator/requests/new/page.tsx:187) не показывает отказ по сочетанию борта и зоны («04» §Two contracts: «an operator can select a combination that cannot possibly pass», правила применяются «only at `validate` and `submit`»; «03» #9: создание в `DRAFT`; «02» §States: у `DRAFT` гейты не запускались).
 
 ## Rationale
 Критерий SKY-3 №1. Пикеры намеренно не фильтруют комбинации («04» §Two contracts to hold exactly): невалидная пара `C3` × `KBP-CTR-3` обязана выбираться и сохраняться, иначе оператор не увидит отказ гейта на `validate`. Кейс ловит регрессию «умного» пре-фильтра пикеров, который «04» прямо запрещает. Единственный результат — заявка создана в `DRAFT`; проверка отказа гейта — E2E-OPR-009.
 
-Код, не документация (подтверждает селекторы): списки зон и бортов строятся без фильтрации (app/operator/requests/new/page.tsx:111, :135); `handleCreate` не проверяет сочетание борта и зоны на клиенте (:43-67). После создания рендерится `flight-request-detail` (components/FlightRequestPanel.tsx:88), `flight-request-detail-zone` (:137) показывает `KBP-CTR-3` — по коду; документация состав экрана не задаёт.
+Код, не документация (подтверждает селекторы): списки зон и бортов строятся без фильтрации (app/operator/requests/new/page.tsx:111, :135); `handleCreate` не проверяет сочетание борта и зоны на клиенте (:43-67). После создания рендерится `flight-request-detail` (components/FlightRequestPanel.tsx:88), бейдж `flight-request-detail-state` (:133) показывает `DRAFT`, `flight-request-detail-zone` (:137) показывает `KBP-CTR-3` — по коду; документация состав экрана не задаёт.
 
 ## Test data
 | Параметр | Значение | Почему это значение |
@@ -34,7 +34,7 @@
 | Aircraft: `mtom_grams` | `12001` | Минимальный вес категории `C3` — на единицу выше границы `C2` (12 000 г, «06» §3) |
 | Пилот: `rating` / `certified_on` | `R_ADVANCED` / `T − 30 дн` | Допуск к `CONTROLLED`; сертификация текущая |
 | Оператор: `authorisation_level` | `L2` | Равен требуемому для `KBP-CTR-3` |
-| `window_start` / `window_end` | `D 12:00` / `D 13:00` | Длительность 60 мин ∈ 15–240; на кейс не влияет |
+| `window_start` / `window_end` | `D 12:00` / `D 13:00` | Длительность 60 мин ∈ 15–240; на кейс не влияет (пояс ввода окна не определён — OQ-22, кандидат реестра QA; на результат не влияет) |
 | `requested_altitude_metres` | `100` | ≤ потолка 120 м |
 | `flight_purpose` | `Аэрофотосъёмка` | Валидный текст |
 

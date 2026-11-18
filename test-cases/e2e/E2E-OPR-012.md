@@ -7,7 +7,7 @@
 - **Техника:** BV — вес на самой границе `C2` (12 000 г, верхняя граница включена): допустимая сторона, парная к E2E-OPR-009 (12 001 г)
 
 ## Preconditions
-- Оператор зарегистрирован и залогинен в портале, `status` не `SUSPENDED` (OQ-01); `authorisation_level = L2` (регистрация даёт `L1`; эндпоинта повышения нет — прямая запись в БД; «06» §4, `OH-1 §4`).
+- Оператор зарегистрирован и залогинен в портале, `status` не `SUSPENDED` (OQ-01); `authorisation_level = L2` (регистрация даёт `L1`; эндпоинта повышения нет — прямая запись в БД; «06» §4, `OH-1 v2.0 §4`).
 - Пилот: `rating = R_ADVANCED` допускает `CONTROLLED` («06» §1.1), `certified_on = T − 30 дн` («06» §2).
 - Aircraft: `mtom_grams = 12000` → `C2` («06» §3: верхняя граница `C2` включена); `C2` ∈ permitted bands `KBP-CTR-3` (C0–C2, «06» §4, §1.2). Запомнить подпись борта в списке: `<manufacturer> <model> (<serial_number>)` (вес в подписи опции не показан, app/operator/requests/new/page.tsx:135).
 - Зона `KBP-CTR-3` активна («06» §4); других заявок на этот aircraft нет.
@@ -15,7 +15,7 @@
 
 ## Steps
 1. В шапке нажать ссылку «New Request» (`operator-nav-new-request` — components/AppHeader.tsx:12, :83).
-2. На форме `flight-request-create-form` (app/operator/requests/new/page.tsx:95) заполнить: `flight-request-zone-select` (:107) = `KBP-CTR-3`; `flight-request-pilot-select` (:118) = пилот `R_ADVANCED`; `flight-request-aircraft-select` (:130) = опция с подписью `<manufacturer> <model> (<serial_number>)` борта из предусловий; `flight-request-window-start-input` (:144) = `D 12:00`; `flight-request-window-end-input` (:152) = `D 13:00`; `flight-request-altitude-input` (:163) = `100`; `flight-request-purpose-textarea` (:175) = `Аэрофотосъёмка`.
+2. На форме `flight-request-create-form` (app/operator/requests/new/page.tsx:95) заполнить: `flight-request-zone-select` (:107) = `KBP-CTR-3`; `flight-request-pilot-select` (:118) = пилот `R_ADVANCED`; `flight-request-aircraft-select` (:130) = опция с подписью `<manufacturer> <model> (<serial_number>)` борта из предусловий (выбирать по label после загрузки списка бортов — он грузится асинхронно); `flight-request-window-start-input` (:144) = `D 12:00`; `flight-request-window-end-input` (:152) = `D 13:00`; `flight-request-altitude-input` (:163) = `100`; `flight-request-purpose-textarea` (:175) = `Аэрофотосъёмка`.
 3. Нажать `flight-request-create-submit-button` (:191); дождаться `flight-request-detail` (components/FlightRequestPanel.tsx:88).
 4. Нажать `flight-request-validate-button` (components/FlightRequestPanel.tsx:112); дождаться результатов в `flight-request-validate-result` (components/GateResultsPanel.tsx:30).
 

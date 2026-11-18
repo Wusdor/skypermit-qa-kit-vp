@@ -2,7 +2,7 @@
 
 - **ID:** E2E-OPR-011
 - **Jira:** SKY-3
-- **Doc ref:** «06 — Business Rules» «Evaluation order» («evaluation stops at the first failure»); «03 — API Contract» §Gate pipeline («stopping at the first failure»), #13 («exactly as `submit` would»); «04 — Frontend Spec» §Operator portal («per-gate pass/fail result»), §Reviewer queue («all four gate results»); «03 — API Contract» #13 («so the reviewer detail view can show all four gate results without side effects»); «05 — Open Questions» (SUSPENDED, №4 — только предусловие); OQ-13 (кандидат реестра QA, `test-plans/open-questions.md`; не вопрос «05»)
+- **Doc ref:** «06 — Business Rules» «Evaluation order» («evaluation stops at the first failure»); «03 — API Contract» §Gate pipeline («stopping at the first failure»), #13 («exactly as `submit` would»); «04 — Frontend Spec» §Operator portal («per-gate pass/fail result»), §Reviewer queue («all four gate results»); «03 — API Contract» #13 («so the reviewer detail view can show all four gate results without side effects»); «05 — Open Questions» (SUSPENDED, №4 — только предусловие); «08 — UML Diagrams» §Gate Pipeline (вторичная ссылка: для `validate` — «200 with per-gate results (no state change)»); OQ-13, OQ-23 (кандидаты реестра QA, `test-plans/open-questions.md`; не вопросы «05»)
 - **Role(s):** Оператор (владелец заявки, работает в портале)
 - **Техника:** State transition — переход по цепочке гейтов: остановка конвейера на втором гейте (`AIRCRAFT`) оставляет третий и четвёртый гейты не достигнутыми
 
@@ -21,7 +21,7 @@
 Не определено — OQ-13: показывает ли `validate` в UI только первый провал или результаты всех четырёх гейтов. Спорная сторона: конвейер останавливается на первом провале («06» «Evaluation order», «03» §Gate pipeline) — `ZONE` и `TIME_WINDOW` не проверены; либо «all four gate results» («04» §Reviewer queue; «03» #13: «the reviewer detail view can show all four gate results without side effects») / «per-gate pass/fail result» («04» §Operator portal) — результаты по всем гейтам. Как документация называет состояние непроверенного гейта в UI (например, «not evaluated»), не определено.
 
 ## Rationale
-Критерий SKY-3 №3, вторая часть: `ZONE` и `TIME_WINDOW` не проверялись, потому что конвейер остановился на `AIRCRAFT`. «06» и «03» говорят об остановке на первом провале, а «04» требует «all four gate results» на детальном экране ревьюера и «per-gate pass/fail» у оператора — OQ-13 (кандидат реестра QA, в «05» не заведён). Ответ не берётся ни по аналогии, ни из кода, поэтому кейс `Blocked`. `PILOT` как пройденный — E2E-OPR-010 (определён при любой трактовке).
+Критерий SKY-3 №3, вторая часть: `ZONE` и `TIME_WINDOW` не проверялись, потому что конвейер остановился на `AIRCRAFT`. «06» и «03» говорят об остановке на первом провале, а «04» требует «all four gate results» на детальном экране ревьюера и «per-gate pass/fail» у оператора — OQ-13 (кандидат реестра QA, в «05» не заведён). Ответ не берётся ни по аналогии, ни из кода, поэтому кейс `Blocked`. Форма ответа `validate` при провале (`422` с телом или `200` с результатами по гейтам) тоже не определена — OQ-23 (кандидат реестра QA), от неё зависит, из чего UI берёт результаты гейтов. `PILOT` как пройденный — E2E-OPR-010 (определён при любой трактовке).
 
 По коду, требует подтверждения: гейты после упавшего получают `NOT_EVALUATED` и бейдж «not evaluated» (components/GateResultsPanel.tsx:13-21, :42-43); конвейер возвращается при первом провале, `ZONE` и `TIME_WINDOW` не вызываются (lib/gates/pipeline.ts:14-21). Это поведение кода, не требование документации.
 
@@ -35,4 +35,4 @@
 | Пилот: `rating` / `certified_on` | `R_ADVANCED` / `T − 30 дн` | `PILOT` проходит — первым падает `AIRCRAFT` |
 
 ## Status
-Blocked — OQ-13
+Blocked — OQ-13, OQ-23
