@@ -66,6 +66,18 @@
     "additionalDirectories": ["../skypermit"]
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__testomatio__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/testomat-guard.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "SessionEnd": [
       {
         "hooks": [
