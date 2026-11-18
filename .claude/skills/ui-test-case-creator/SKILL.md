@@ -4,6 +4,8 @@ description: Пишет только UI/E2E-кейсы по одной зада�
 argument-hint: "<JSON от /jira-intake>"
 allowed-tools: Read, Grep, Glob, Write(test-cases/e2e/**), Edit(test-plans/open-questions.md), mcp__atlassian__getConfluencePage, mcp__atlassian__searchConfluenceUsingCql
 model: sonnet
+context: fork
+agent: general-purpose
 ---
 
 # ui-test-case-creator

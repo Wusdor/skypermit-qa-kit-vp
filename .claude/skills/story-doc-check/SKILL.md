@@ -3,6 +3,8 @@ name: story-doc-check
 description: Сверка acceptance criteria одной задачи Jira с документацией SkyPermit в Confluence (SPD) перед тест-дизайном. Не для проверки кода, не для написания или проверки тест-кейсов, не для правки Jira.
 argument-hint: "<JSON от /jira-intake>"
 allowed-tools: mcp__atlassian__searchConfluenceUsingCql, mcp__atlassian__getConfluencePage
+context: fork
+agent: Explore
 ---
 
 # story-doc-check
