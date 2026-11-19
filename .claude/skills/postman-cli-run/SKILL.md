@@ -51,10 +51,13 @@ JSON-объект: `key`, `collection_id`, `environment_id` (uid Postman вид�
 ## Прогон
 
 ```bash
-mkdir -p api-automation/runs
-postman collection run <collection_id> -e <environment_id> --disable-unicode -x \
-  > api-automation/runs/<key>-<YYYYMMDD-HHMMSS>.log 2>&1
+mkdir -p api-automation/runs && LOG="api-automation/runs/<key>-$(date +%Y%m%d-%H%M%S).log" && postman collection run <collection_id> -e <environment_id> --disable-unicode -x > "$LOG" 2>&1; echo "log=$LOG exit=$?"
 ```
+
+Время в имени лога берётся только из `$(date +%Y%m%d-%H%M%S)` внутри команды — не
+придумывать и не подставлять самому (выдуманное время уже дважды приводило к
+перезаписи лога). Путь к логу брать из строки `log=…` вывода команды, а не составлять
+самому; его же читать через `Read` и возвращать в поле `log`.
 
 `-x` оставляет код выхода 0 при падающих тестах, чтобы упавший тест не путался со
 сломанным прогоном. `--output` доступен только в Enterprise, поэтому отчётом служит
