@@ -2,12 +2,14 @@
 name: testomat-sync
 description: Синхронизирует кейсы из test-cases/ в Testomat.io: upsert без дублей, создание рана, запись результатов; общий для story-to-tests и story-to-api-tests; НЕ для написания или проверки кейсов.
 argument-hint: "upsert <suite> <key> <files...> | run <title> <test_ids> | report <run_id> <results>"
+context: fork
+agent: general-purpose
 allowed-tools: Read(test-cases/**), mcp__testomatio__tql_help, mcp__testomatio__suites, mcp__testomatio__tests, mcp__testomatio__runs, mcp__testomatio__testruns
 ---
 
 # testomat-sync
 
-Вход: `$ARGUMENTS` — первое слово это режим (`upsert`, `run`, `report`), дальше его аргументы. Вся работа с Testomat живёт здесь; оркестраторы UI и API только вызывают этот скилл. Выход — один блок json (см. §5) и ничего больше.
+Вход: `$ARGUMENTS` — первое слово это режим (`upsert`, `run`, `report`), дальше его аргументы. Вся работа с Testomat живёт здесь; оркестраторы UI и API только вызывают этот скилл. Кейсы любого уровня: `E2E-…` (UI) и `API-…` (API); `<ID>` — любой ID вида `<УРОВЕНЬ>-<РОЛЬ>-<NNN>`, привязки к префиксу нет. Выход — один блок json (см. §5) и ничего больше.
 
 ## Жёсткие правила
 
@@ -29,7 +31,7 @@ allowed-tools: Read(test-cases/**), mcp__testomatio__tql_help, mcp__testomatio__
 
 1. **Сьют.** `suites list` с `file_type: file`, `search_text: <suite>`, обойти все страницы (`page`/`per_page`); искать в дереве, включая вложенные `children`, сьют с **точным** совпадением названия. Нашёлся один — `created: false`. Несколько — ошибка, остановить режим (неоднозначно, какой брать). Нет — `suites create` (`title: <suite>`, `file_type: file`), `created: true`.
 2. **Тесты сьюта.** `tests list` по этому сьюту (`tql` по `suite` или обход всех страниц и фильтр по `suite_id` — сверить по `tql_help`), собрать список `id` + `title` + `self_tags`.
-3. **Для каждого кейса:** искать тест, название которого **начинается с `<case_id>:`** — двоеточие обязательно, иначе `E2E-OPR-001` совпадёт с `E2E-OPR-0010`.
+3. **Для каждого кейса:** искать тест, название которого **начинается с `<case_id>:`** — двоеточие обязательно, иначе `E2E-OPR-001` совпадёт с `E2E-OPR-0010`, а `API-OPR-006` — с `API-OPR-0060`.
    - один тест — `tests update` (`test_id`, `title`, `description`) → `action: updated`. Теги в названии не терять: из текущего `title` найденного теста выписать все токены `@<tag>` (в исходном порядке) и дописать в конец нового `title` (`<ID>: <заголовок> @a @b`), пропуская те, что уже есть в новом заголовке. Тег `<key>` считать присутствующим, если `@<key>` есть в текущем `title` или `<key>` есть в `self_tags`; если его нет нигде — добавить `@<key>` в `title` и ещё `link: [{action: add, type: tag, value: <key>}]`; если есть — `link` не передавать (теги не дублировать и чужие не трогать);
    - несколько — ошибка для кейса (дубль уже в Testomat), ничего не менять;
    - нет — `tests create` (`suite_id`, `title`, `description`, `state: manual`, `link: [{action: add, type: tag, value: <key>}]`) → `action: created`.
@@ -47,10 +49,11 @@ allowed-tools: Read(test-cases/**), mcp__testomatio__tql_help, mcp__testomatio__
 
 ## 4. Режим `report <run_id> <results>`
 
-`<results>` — JSON-массив `[{"test_id": "…", "status": "passed|failed|skipped", "message": "…"}]` (допустим блок json или путь внутри `test-cases/**`). `status` вне трёх значений или пустой `test_id` — ошибка для записи.
+`<results>` — вывод `postman-cli-run` как есть: JSON-объект `{"status", "key", "results": [...], ...}` (берётся только `results`, остальные поля игнорируются) либо сам массив `results`. Допустим блок json в тексте или путь внутри `test-cases/**`. Запись: `{"case_id": "…", "test_id": "…"?, "status": "passed|failed|skipped", "message": "…"}`; `test_id` необязателен. `status` вне трёх значений — ошибка для записи; нет ни `test_id`, ни `case_id` — тоже. Значения `status` берутся как есть, без пересчёта.
 
-1. Для каждой записи: `testruns list` (`run_id`, `test_ids: [test_id]`); есть — `testruns update` (`status`, `message`), нет — `testruns create` (`run_id`, `test_id`, `status`, `message`). Провалы (`failed`) пишутся так же, `message` обязателен для `failed` и `skipped` (если нет — ошибка для записи, статус не ставить).
-2. После всех записей: `runs update` (`run_id`, `status_event: finish_manual`). Если ран закрыть не удалось — в `errors`.
+1. **Определить тест записи.** Есть `test_id` — использовать его. Нет — найти тест в ране по `case_id`: `testruns list` (`run_id`, обойти все страницы), взять тесты, **название которых начинается с `<case_id>:`** (двоеточие обязательно, как в `upsert`; если в записи testrun названия нет — взять через `tests get`). Не нашёлся или нашлось несколько — ошибка для записи (`{case_id, step, message}`), остальные записи идут дальше. Ищется только среди тестов этого рана.
+2. **Записать результат.** `testruns list` (`run_id`, `test_ids: [test_id]`); есть — `testruns update` (`status`, `message`), нет — `testruns create` (`run_id`, `test_id`, `status`, `message`). Провалы (`failed`) пишутся так же; `failed` и `skipped` — с `message` из записи (из `postman-cli-run`), если его нет — ошибка для записи, статус не ставить. Для `passed` `message` необязателен, передавать, если есть.
+3. После всех записей: `runs update` (`run_id`, `status_event: finish_manual`). Если ран закрыть не удалось — в `errors`.
 
 ## 5. Выход
 
@@ -67,5 +70,5 @@ allowed-tools: Read(test-cases/**), mcp__testomatio__tql_help, mcp__testomatio__
 ```
 
 - `suite` — только для `upsert`; `run` — только для `run`/`report`.
-- `tests` в `run`/`report` — по одному элементу на тест с записанным результатом (`action` опускать).
+- `tests` в `run`/`report` — по одному элементу на тест с записанным результатом (`action` опускать; в `report` `case_id` заполнять, если он был в записи).
 - Любой сбой инструмента (сеть, 4xx) — в `errors` с текстом ответа; повторять вызов не более одного раза.
