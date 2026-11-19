@@ -72,6 +72,7 @@
     "ask": [
       "Bash(git pull:*)",
       "Bash(git fetch:*)",
+      "Bash(postman collection run:*)",
       "mcp__atlassian__addCommentToJiraIssue",
       "mcp__atlassian__addWorklogToJiraIssue",
       "mcp__atlassian__createConfluenceFooterComment",
