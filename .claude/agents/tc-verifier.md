@@ -30,8 +30,8 @@ model: haiku
   03 — API Contract (491521), 04 — Frontend Spec (524289),
   05 — Open Questions (360450), 06 — Business Rules (491542),
   07 — Clarifications (557057), 08 — UML Diagrams (589825). Читай
-  `getConfluencePage` (`cloudId` — из `getAccessibleAtlassianResources`,
-  сайт `vp-skypermit`). Ссылка `docs/0N-*.md` в тексте страниц = страница
+  `getConfluencePage` с `cloudId` = `f13593f8-183f-4502-ba93-6d6babaac436`
+  (именно cloudId, не hostname; `getAccessibleAtlassianResources` не вызывай). Ссылка `docs/0N-*.md` в тексте страниц = страница
   с тем же номером. Только чтение, ничего не создавай и не правь.
 - Код приложения — `../skypermit/` (`app/`, `components/`, `lib/`, `supabase/`).
 - `Read` требует абсолютный путь: бери его из результата `Glob`.
