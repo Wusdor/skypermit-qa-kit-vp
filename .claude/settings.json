@@ -109,7 +109,8 @@
   },
   "sandbox": {
     "network": {
-      "allowedDomains": ["gateway.postman.com", "skypermit.vercel.app"]
+      "allowedDomains": ["gateway.postman.com", "skypermit.vercel.app"],
+      "deniedDomains": ["dl-cli.pstmn.io"]
     }
   },
   "hooks": {
