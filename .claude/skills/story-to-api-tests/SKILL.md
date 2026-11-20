@@ -96,7 +96,10 @@ allowed-tools: Skill, Agent, AskUserQuestion, Read(test-cases/**), Read(test-pla
    - при ручной правке запросов префикс `<case id>: ` в имени запроса сохранять: по нему результаты привязываются к кейсам.
 
    Ответ не «Запускай» — остановись: кейсы остаются в Testomat, ран открыт.
-3. «Запускай» — вызови скилл `postman-cli-run` с JSON: `key`, `collection_id`, `environment_id`. При `error` сообщи причину и `hint` и остановись.
+3. «Запускай» — вызови скилл `postman-cli-run` с JSON: `key`, `collection_id`, `environment_id`. При `error` сообщи причину и `hint` и остановись. Исключение — `error` с `hint` про свежую сессию: выведи готовые к копированию шаги, подставив настоящие uid, `run_id` и список Blocked:
+   (а) в новой сессии: `/postman-cli-run {"key": "<KEY>", "collection_id": "<uid>", "environment_id": "<uid>"}`;
+   (б) там же сообщение: «Вызови testomat-sync report <run_id> с этим выводом как есть, без записей <ID Blocked-кейсов>» (если Blocked-кейсов нет — так и напиши).
+   Ран в Testomat остаётся открытым.
 4. Из `results` убери записи Blocked-кейсов (определи по `Status` в файлах кейсов), чтобы они остались `pending`. Остальное не меняй.
 5. Вызови `testomat-sync report <run_id> <results>`, где `<results>` — вывод `postman-cli-run` как есть (с убранными Blocked-записями).
 
