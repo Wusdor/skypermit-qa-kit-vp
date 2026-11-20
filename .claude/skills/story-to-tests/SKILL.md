@@ -22,7 +22,8 @@ allowed-tools: Skill, Agent, AskUserQuestion, Read, Grep, Glob, Edit(test-cases/
 
 Вызови скилл `jira-intake` с `$ARGUMENTS`. Получишь JSON (`key`, `title`, `check_type`, `acceptance_criteria`, `confluence_url`, `notes`); дальше называй его «JSON из шага 1».
 
-- `check_type` не `"ui"` (включая `null`) — выведи одну строку и остановись: «<KEY> — не UI-задача (check_type: <значение>), для API будет отдельный флоу».
+- `check_type` = `"api"` — выведи одну строку и остановись: «<KEY> — API-задача, есть /story-to-api-tests».
+- `check_type` не `"ui"` и не `"api"` (включая `null`) — выведи одну строку и остановись: «<KEY> — не UI-задача (check_type: <значение>)».
 - `acceptance_criteria` пуст — остановись и процитируй `notes` из JSON.
 
 ## Шаг 2. Сверка с документацией и кодом
