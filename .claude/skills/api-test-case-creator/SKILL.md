@@ -4,7 +4,7 @@ description: Пишет API-кейсы (HTTP-запросы к /api/v1) на О�
 argument-hint: '{"gate":"TIME_WINDOW","rule_reference":"TSD-4 §2.1","condition":"...","story":"SKY-2","acceptance_criteria":["..."],"covered_by":["test-cases/gates/API-OPR-001.md"]}'
 model: sonnet
 agent: general-purpose
-allowed-tools: Read(test-cases/**), Read(test-plans/open-questions.md), Grep(test-cases/**), Glob(test-cases/**), Write(test-cases/api/**), mcp__atlassian__getConfluencePage, mcp__atlassian__searchConfluenceUsingCql
+allowed-tools: Read(test-cases/**), Read(test-plans/open-questions.md), Grep(test-cases/**), Glob(test-cases/**), Write(test-cases/api/**), mcp__atlassian__getConfluenceContent, mcp__atlassian__searchConfluence
 ---
 
 # api-test-case-creator
@@ -20,7 +20,7 @@ allowed-tools: Read(test-cases/**), Read(test-plans/open-questions.md), Grep(tes
 
 ## 1. Источники — только Confluence SPD
 
-`cloudId` `f13593f8-183f-4502-ba93-6d6babaac436` (`getAccessibleAtlassianResources` не вызывать), `getConfluencePage` с `contentFormat: markdown`, по ID:
+`cloudId` `f13593f8-183f-4502-ba93-6d6babaac436` (`getAccessibleAtlassianResources` не вызывать), `getConfluenceContent` с `content_id`, `content_format: "markdown"`, `detail: "full"`, по ID:
 
 | Страница | ID | Что брать |
 |---|---|---|
@@ -29,7 +29,7 @@ allowed-tools: Read(test-cases/**), Read(test-plans/open-questions.md), Grep(tes
 | 06 — Business Rules | 491542 | условие правила (§1), `rule_reference` (§6) |
 | 07 — Clarifications | 557057 | поправки к 06; при расхождении действует 07 |
 
-ID не открывается — `searchConfluenceUsingCql` (`space = SPD AND title ~ "03"`). Дополнительно читать `test-plans/open-questions.md` — реестр `OQ-NN`; ссылаться только на вопросы, которые там есть.
+ID не открывается — `searchConfluence` (параметр `cql`: `space = SPD AND type = page AND title ~ "03"`). Дополнительно читать `test-plans/open-questions.md` — реестр `OQ-NN`; ссылаться только на вопросы, которые там есть.
 
 `../skypermit` (docs, код, `openapi.yaml`) не читать. Эндпоинт, поле или код, которых нет в 03, не использовать; кейсы, которые без них не написать, — в `skipped` с причиной. Если ни одной страницы Confluence не открыть и поиск не помог — `blocked`. Не брать статус-код или формат ответа по аналогии с соседними эндпоинтами.
 

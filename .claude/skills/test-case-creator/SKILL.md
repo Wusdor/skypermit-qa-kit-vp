@@ -45,7 +45,8 @@ model: sonnet
 
 - Документация — Confluence, пространство `SPD` сайта `vp-skypermit`
   (страницы и ID — в `CLAUDE.md`). Читай через
-  `mcp__atlassian__getConfluencePage`. Прочитай разделы модуля целиком, а
+  `mcp__atlassian__getConfluenceContent` (`content_id`, `content_format:
+  "markdown"`, `detail: "full"`). Прочитай разделы модуля целиком, а
   также «05 — Open Questions» и «07 — Clarifications»: `05` — единственный
   источник статуса вопросов, `07` важнее `06` при расхождении.
 - Тест-план модуля в `test-plans/`, если есть: риски и стратегия подсказывают

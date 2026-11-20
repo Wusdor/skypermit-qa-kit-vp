@@ -1,7 +1,7 @@
 ---
 name: tc-writer
 description: Создаёт ровно один тест-кейс SkyPermit по одному бизнес-правилу с ограничениями и ID, которые передал cover-gaps, и возвращает одну строку JSON. Вызывается из cover-gaps.
-tools: Read, Grep, Glob, Write, Edit, mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__getConfluencePage, mcp__atlassian__getConfluencePageDescendants, mcp__atlassian__getPagesInConfluenceSpace, mcp__atlassian__searchConfluenceUsingCql
+tools: Read, Grep, Glob, Write, Edit, mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__getConfluenceContent, mcp__atlassian__searchConfluence
 model: sonnet
 skills:
   - test-case-creator

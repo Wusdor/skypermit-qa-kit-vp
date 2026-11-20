@@ -8,7 +8,7 @@ QA-кит для проекта SkyPermit. Основная работа — г�
 
 ## Источники
 
-1. **Основной источник требований — Confluence**, сайт `vp-skypermit` (cloudId `f13593f8-183f-4502-ba93-6d6babaac436`, `getAccessibleAtlassianResources` не вызывать), пространство **SkyPermit Docs, ключ `SPD`** (8 страниц). Читать через MCP-сервер `atlassian` (`mcp__atlassian__*`, не плагин), по ID страницы:
+1. **Основной источник требований — Confluence**, сайт `vp-skypermit` (cloudId `f13593f8-183f-4502-ba93-6d6babaac436`, `getAccessibleAtlassianResources` не вызывать), пространство **SkyPermit Docs, ключ `SPD`** (8 страниц). Читать через MCP-сервер `atlassian` v2 (`mcp__atlassian__*`, не плагин) инструментом `getConfluenceContent` по ID страницы, явно с `content_id`, `content_format: "markdown"`, `detail: "full"` (по умолчанию `summary` отдаёт только отрывок); поиск — `searchConfluence` (параметр `cql`):
 
    | Страница | ID | Содержание |
    |---|---|---|

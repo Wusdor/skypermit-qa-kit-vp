@@ -2,7 +2,7 @@
 name: story-doc-check
 description: Сверка acceptance criteria одной задачи Jira с документацией SkyPermit в Confluence (SPD) перед тест-дизайном. Не для проверки кода, не для написания или проверки тест-кейсов, не для правки Jira.
 argument-hint: "<JSON от /jira-intake>"
-allowed-tools: mcp__atlassian__searchConfluenceUsingCql, mcp__atlassian__getConfluencePage
+allowed-tools: mcp__atlassian__searchConfluence, mcp__atlassian__getConfluenceContent
 context: fork
 agent: Explore
 ---
@@ -14,7 +14,7 @@ agent: Explore
 ## Источники
 
 - Задача: только JSON из `$ARGUMENTS`, критерии — массив `acceptance_criteria`. Jira не читать.
-- Confluence: только пространство **SPD** (SkyPermit Docs), читать по ID через `mcp__atlassian__getConfluencePage` (`cloudId` = `f13593f8-183f-4502-ba93-6d6babaac436`, `getAccessibleAtlassianResources` не вызывать, `contentFormat: markdown`). `mcp__atlassian__searchConfluenceUsingCql` — только если нужной страницы нет в таблице.
+- Confluence: только пространство **SPD** (SkyPermit Docs), читать по ID через `mcp__atlassian__getConfluenceContent` (`cloudId` = `f13593f8-183f-4502-ba93-6d6babaac436`, `getAccessibleAtlassianResources` не вызывать, `content_id`, `content_format: "markdown"`, `detail: "full"`). `mcp__atlassian__searchConfluence` (параметр `cql`) — только если нужной страницы нет в таблице.
 
 | Страница | ID |
 |---|---|

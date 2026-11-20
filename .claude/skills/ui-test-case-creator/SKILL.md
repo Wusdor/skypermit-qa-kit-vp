@@ -2,7 +2,7 @@
 name: ui-test-case-creator
 description: Пишет только UI/E2E-кейсы по одной задаче Jira через форму и data-testid; НЕ для API-кейсов (будет отдельный скилл) и НЕ для атомарных кейсов по правилу (test-case-creator, /cover-gaps).
 argument-hint: "<JSON от /jira-intake>"
-allowed-tools: Read, Grep, Glob, Write(test-cases/e2e/**), Edit(test-plans/open-questions.md), mcp__atlassian__getConfluencePage, mcp__atlassian__searchConfluenceUsingCql
+allowed-tools: Read, Grep, Glob, Write(test-cases/e2e/**), Edit(test-plans/open-questions.md), mcp__atlassian__getConfluenceContent, mcp__atlassian__searchConfluence
 model: sonnet
 context: fork
 agent: general-purpose
@@ -18,7 +18,7 @@ agent: general-purpose
 
 ## 1. Источники
 
-- **Ожидаемый результат — только Confluence SPD** (`cloudId` `f13593f8-183f-4502-ba93-6d6babaac436`, `getAccessibleAtlassianResources` не вызывать, `contentFormat: markdown`, чтение через `getConfluencePage` по ID; `searchConfluenceUsingCql` — только если страницы нет в таблице).
+- **Ожидаемый результат — только Confluence SPD** (`cloudId` `f13593f8-183f-4502-ba93-6d6babaac436`, `getAccessibleAtlassianResources` не вызывать, чтение через `getConfluenceContent` по ID: `content_id`, `content_format: "markdown"`, `detail: "full"`; `searchConfluence` (параметр `cql`) — только если страницы нет в таблице).
 
   | Страница | ID |
   |---|---|

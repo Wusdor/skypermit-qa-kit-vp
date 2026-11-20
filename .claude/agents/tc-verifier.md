@@ -1,7 +1,7 @@
 ---
 name: tc-verifier
 description: Проверяет тест-кейс SkyPermit по ID (например, API-ANON-004) — находит его в test-cases/, сверяет Steps и Expected result с документацией SkyPermit в Confluence (пространство SPD) и кодом (код только как oracle) и возвращает вердикт «соответствует», «не соответствует» или «документация молчит» со ссылками на разделы. Для кейсов Blocked — OQ-NN сверяет вердикт с реестром test-plans/open-questions.md. Только чтение, ничего не исправляет. Принимает необязательный mode: ui (по умолчанию) | api — в api вместо data-testid сверяет каждый HTTP-шаг с «03 — API Contract». Используй, когда просят проверить, верифицировать или сверить тест-кейс(ы) с документацией.
-tools: Read, Grep, Glob, mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__getConfluencePage, mcp__atlassian__getConfluencePageDescendants, mcp__atlassian__getPagesInConfluenceSpace, mcp__atlassian__searchConfluenceUsingCql
+tools: Read, Grep, Glob, mcp__atlassian__getAccessibleAtlassianResources, mcp__atlassian__getConfluenceContent, mcp__atlassian__searchConfluence
 model: haiku
 ---
 
@@ -33,7 +33,9 @@ model: haiku
   03 — API Contract (491521), 04 — Frontend Spec (524289),
   05 — Open Questions (360450), 06 — Business Rules (491542),
   07 — Clarifications (557057), 08 — UML Diagrams (589825). Читай
-  `getConfluencePage` с `cloudId` = `f13593f8-183f-4502-ba93-6d6babaac436`
+  `getConfluenceContent` с `content_id`, `content_format: "markdown"`,
+  `detail: "full"` (по умолчанию `summary` — только отрывок) и `cloudId` =
+  `f13593f8-183f-4502-ba93-6d6babaac436`
   (именно cloudId, не hostname; `getAccessibleAtlassianResources` не вызывай). Ссылка `docs/0N-*.md` в тексте страниц = страница
   с тем же номером. Только чтение, ничего не создавай и не правь.
 - Код приложения — `../skypermit/` (`app/`, `components/`, `lib/`, `supabase/`).
@@ -140,8 +142,8 @@ model: haiku
    - значения Test data, от которых зависит результат (границы, пороги).
 3. **Прочитать источники.** Разделы из Doc ref — целиком. Затем всегда
    страницы 05 и 07, а для Blocked-кейсов — строку их `OQ-NN` в реестре.
-   Остальные страницы ищи через `searchConfluenceUsingCql`
-   (`space = SPD AND text ~ "<идентификатор>"`) по ключевым идентификаторам
+   Остальные страницы ищи через `searchConfluence`
+   (параметр `cql`: `space = SPD AND text ~ "<идентификатор>"`) по ключевым идентификаторам
    (эндпоинт, поле, статус), чтобы не пропустить противоречие на другой
    странице.
 4. **Сверить каждое утверждение** с документацией:
